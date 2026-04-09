@@ -5,6 +5,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 
+/**
+ * Entité représentant un rôle d'utilisateur.
+ */
 @Entity
 @Table(name = "roles")
 @Data
@@ -15,7 +18,7 @@ public class Role {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Enumerated(EnumType.STRING) // Stocke le nom de l'énumération (ex: "ROLE_USER")
+    @Enumerated(EnumType.STRING)
     @Column(length = 20, nullable = false, unique = true)
     private ERole name;
 }

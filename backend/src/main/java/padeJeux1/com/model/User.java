@@ -8,6 +8,9 @@ import lombok.AllArgsConstructor;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * Entité représentant un utilisateur.
+ */
 @Entity
 @Table(name = "users",
         uniqueConstraints = {
@@ -37,7 +40,6 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles = new HashSet<>();
 
-    // Constructeur sans ID pour l'enregistrement
     public User(String username, String email, String password) {
         this.username = username;
         this.email = email;
