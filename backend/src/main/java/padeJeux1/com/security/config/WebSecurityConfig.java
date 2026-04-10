@@ -17,10 +17,9 @@ import org.springframework.security.web.SecurityFilterChain;
 
 /**
  * Configuration principale de Spring Security pour l'application.
- * Définit les règles d'accès, l'authentification et l'encodage des mots de passe.
  */
 @Configuration
-@EnableMethodSecurity // Active la sécurité au niveau des méthodes (ex: @PreAuthorize)
+@EnableMethodSecurity
 public class WebSecurityConfig {
 
     @Autowired
@@ -46,14 +45,15 @@ public class WebSecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.csrf(AbstractHttpConfigurer::disable) // Désactive CSRF pour les API REST
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // Pas de session côté serveur
+        http.csrf(AbstractHttpConfigurer::disable)
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/auth/**").permitAll() // Permet l'accès public aux endpoints d'authentification
-                        .requestMatchers("/api/test/**").permitAll() // Exemple : permet l'accès public aux endpoints de test
-                        .anyRequest().authenticated() // Toutes les autres requêtes nécessitent une authentification
+                        .requestMatchers("/api/auth/**").permitAll()
+                        .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
+                        .anyRequest().authenticated()
                 );
 
+        // Enregistre notre fournisseur d'authentification personnalisé.
         http.authenticationProvider(authenticationProvider());
 
         return http.build();
