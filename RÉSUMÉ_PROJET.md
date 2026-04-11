@@ -61,3 +61,13 @@
     *   Mise à jour de `WebSecurityConfig` pour intégrer le filtre JWT.
     *   Création d'un `TestController` pour vérifier l'accès aux ressources sécurisées.
 *   **Tests :** Utilisation de Swagger UI pour obtenir un token et l'utiliser avec succès pour accéder à un endpoint protégé (`/api/test/user`). **Système validé.**
+
+### 7. Création de la Gestion des Matchs
+
+*   **Objectif :** Construire les fonctionnalités de base pour la gestion des matchs de padel.
+*   **Actions :**
+    *   Création de l'entité `Match.java` pour représenter un match.
+    *   Création du `MatchRepository.java` pour l'accès aux données des matchs.
+    *   Création du `MatchController.java` pour exposer les endpoints `/api/matches`.
+    *   Création du DTO `MatchRequest.java` pour les requêtes de création de match.
+*   **Tests :** Utilisation de Swagger UI pour créer et lister des matchs avec succès. **Système validé.**
