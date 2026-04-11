@@ -5,9 +5,12 @@ import padeJeux1.com.model.Role;
 import padeJeux1.com.model.User;
 import padeJeux1.com.payload.request.LoginRequest;
 import padeJeux1.com.payload.request.SignupRequest;
+import padeJeux1.com.payload.response.JwtResponse;
 import padeJeux1.com.payload.response.MessageResponse;
 import padeJeux1.com.repository.RoleRepository;
 import padeJeux1.com.repository.UserRepository;
+import padeJeux1.com.security.jwt.JwtUtils;
+import padeJeux1.com.security.services.UserDetailsImpl;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -18,7 +21,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * Contrôleur REST pour la gestion de l'authentification (inscription et connexion).
@@ -32,16 +37,18 @@ public class AuthController {
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
     private final PasswordEncoder encoder;
+    private final JwtUtils jwtUtils;
 
-    // Injection des dépendances par le constructeur (pratique recommandée)
     public AuthController(AuthenticationManager authenticationManager,
                           UserRepository userRepository,
                           RoleRepository roleRepository,
-                          PasswordEncoder encoder) {
+                          PasswordEncoder encoder,
+                          JwtUtils jwtUtils) {
         this.authenticationManager = authenticationManager;
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.encoder = encoder;
+        this.jwtUtils = jwtUtils;
     }
 
     @PostMapping("/signin")
@@ -50,7 +57,18 @@ public class AuthController {
                 new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        return ResponseEntity.ok(new MessageResponse("Utilisateur authentifié avec succès !"));
+        String jwt = jwtUtils.generateJwtToken(authentication);
+
+        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+        List<String> roles = userDetails.getAuthorities().stream()
+                .map(item -> item.getAuthority())
+                .collect(Collectors.toList());
+
+        return ResponseEntity.ok(new JwtResponse(jwt,
+                                                 userDetails.getId(),
+                                                 userDetails.getUsername(),
+                                                 userDetails.getEmail(),
+                                                 roles));
     }
 
     @PostMapping("/signup")
