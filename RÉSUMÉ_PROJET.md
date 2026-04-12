@@ -87,3 +87,26 @@
     2.  **Création d'un Match :** Utilisation de `POST /api/matches` pour créer un match de test. Noter l'ID du match dans la réponse.
     3.  **Mise à Jour du Score :** Utilisation de l'endpoint `PUT /api/matches/{id}/score`, en passant l'ID du match dans l'URL et un JSON avec les scores dans le "Request body". Vérification de la réception d'une réponse `200 OK` avec le match mis à jour.
     4.  **Résultat :** Le système a été validé avec succès.
+
+### 9. Amélioration de la Structure des Matchs (Équipes)
+
+*   **Objectif :** Différencier les joueurs de chaque équipe au sein d'un match.
+*   **Actions :**
+    *   Mise à jour de l'entité `Match` pour remplacer la liste `players` par deux listes : `teamA` et `teamB`.
+    *   Mise à jour du DTO `MatchRequest` pour accepter les IDs des joueurs de chaque équipe.
+    *   Mise à jour de la logique du `MatchController` pour gérer la création des équipes.
+*   **Procédure de Test Détaillée :**
+    1.  **Authentification :** Répétition de la procédure d'authentification JWT.
+    2.  **Création de plusieurs utilisateurs** (`player2`, `player3`, etc.) via l'endpoint de `signup`.
+    3.  **Récupération des IDs :** Connexion successive à chaque utilisateur via `signin` pour noter leurs IDs respectifs.
+    4.  **Création de Match :** Utilisation de `POST /api/matches` avec un JSON spécifiant les IDs des joueurs dans les champs `teamAPlayerIds` et `teamBPlayerIds`.
+    5.  **Vérification :** Utilisation de `GET /api/matches` pour confirmer que le match a été créé avec les bonnes équipes.
+    6.  **Résultat :** Le système a été validé avec succès.
+
+### 10. Finalisation du Backend
+
+*   **Objectif :** Nettoyer le code avant de passer au développement du frontend.
+*   **Actions :**
+    *   Suppression du `TestController` qui servait au débogage.
+    *   Nettoyage de la configuration de sécurité (`WebSecurityConfig`).
+*   **Résultat :** Le backend est propre et prêt pour la suite.
