@@ -27,16 +27,22 @@ public class Match {
     @Column(nullable = false)
     private String location;
 
-    // Nouveaux champs pour le score
     @Column(nullable = false)
     private int scoreTeamA = 0;
 
     @Column(nullable = false)
     private int scoreTeamB = 0;
 
+    // Remplacement de "players" par "teamA" et "teamB"
     @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "match_players",
+    @JoinTable(name = "match_team_a",
             joinColumns = @JoinColumn(name = "match_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id"))
-    private Set<User> players = new HashSet<>();
+    private Set<User> teamA = new HashSet<>();
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "match_team_b",
+            joinColumns = @JoinColumn(name = "match_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id"))
+    private Set<User> teamB = new HashSet<>();
 }

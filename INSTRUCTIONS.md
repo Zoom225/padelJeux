@@ -1,15 +1,27 @@
-# Instructions - Prochaine Étape
+# Instructions - Phase de Backend Terminée
 
-**Objectif :** Améliorer la structure des matchs pour différencier les joueurs de chaque équipe.
+**Objectif :** Conclure la phase de développement du backend.
 
 ---
 
-### **Contexte**
+### **Résumé des Actions de Finalisation**
 
-Actuellement, un match a une seule liste de "joueurs". Pour gérer correctement un match de padel, nous devons savoir qui est dans l'équipe A et qui est dans l'équipe B.
+1.  **Suppression du `TestController.java`** : Le contrôleur de débogage a été neutralisé.
+2.  **Nettoyage du code** : La configuration de sécurité a été nettoyée.
+3.  **Mise à jour de la documentation** : Le fichier `RÉSUMÉ_PROJET.md` a été complété.
 
-### **Prochaines Actions (réalisées par l'assistant)**
+**Le développement des fonctionnalités de base du backend est maintenant terminé.**
 
-1.  **Mettre à jour l'entité `Match.java`** : Remplacer la liste `players` par deux nouvelles listes, `teamA` et `teamB`.
-2.  **Mettre à jour le DTO `MatchRequest.java`** : Pour permettre de spécifier les IDs des joueurs de chaque équipe lors de la création.
-3.  **Mettre à jour la logique du `MatchController.java`** pour gérer ces deux nouvelles listes d'équipes.
+---
+
+### **Prochaine Grande Étape : Le Frontend**
+
+La prochaine phase majeure du projet est de construire l'**interface utilisateur (frontend)** dans le dossier `/frontend`.
+
+Cette interface web permettra aux utilisateurs d'interagir avec l'API que nous avons construite pour :
+*   S'inscrire et se connecter.
+*   Voir la liste des matchs.
+*   Créer de nouveaux matchs.
+*   Mettre à jour les scores.
+
+Cette partie utilisera des technologies web comme HTML, CSS, et JavaScript (probablement avec un framework comme React, Angular, ou Vue.js).
