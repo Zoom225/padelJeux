@@ -27,6 +27,13 @@ public class Match {
     @Column(nullable = false)
     private String location;
 
+    // Nouveaux champs pour le score
+    @Column(nullable = false)
+    private int scoreTeamA = 0;
+
+    @Column(nullable = false)
+    private int scoreTeamB = 0;
+
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "match_players",
             joinColumns = @JoinColumn(name = "match_id"),

@@ -3,6 +3,7 @@ package padeJeux1.com.controller;
 import padeJeux1.com.model.Match;
 import padeJeux1.com.model.User;
 import padeJeux1.com.payload.request.MatchRequest;
+import padeJeux1.com.payload.request.ScoreRequest; // Importation du nouveau DTO
 import padeJeux1.com.repository.MatchRepository;
 import padeJeux1.com.repository.UserRepository;
 import jakarta.validation.Valid;
@@ -61,5 +62,20 @@ public class MatchController {
     public ResponseEntity<List<Match>> getAllMatches() {
         List<Match> matches = matchRepository.findAll();
         return ResponseEntity.ok(matches);
+    }
+
+    /**
+     * Endpoint pour mettre à jour le score d'un match existant.
+     * Accessible uniquement par les utilisateurs authentifiés.
+     */
+    @PutMapping("/{id}/score")
+    @PreAuthorize("isAuthenticated()")
+    public ResponseEntity<?> updateScore(@PathVariable Long id, @Valid @RequestBody ScoreRequest scoreRequest) {
+        return matchRepository.findById(id).map(match -> {
+            match.setScoreTeamA(scoreRequest.getScoreTeamA());
+            match.setScoreTeamB(scoreRequest.getScoreTeamB());
+            matchRepository.save(match);
+            return ResponseEntity.ok(match);
+        }).orElse(ResponseEntity.notFound().build());
     }
 }
